@@ -1,0 +1,7 @@
+{
+  "hooks": {
+    "preToolUse": [
+      ".claude/hooks/spec_gate.py"
+    ]
+  }
+}
