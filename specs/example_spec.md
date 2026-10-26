@@ -15,3 +15,10 @@ Implement secure Time-Based One-Time Password (TOTP) Multi-Factor Authentication
 - **Alternative MFA Factors**: Hardware keys (WebAuthn/FIDO2) and SMS/Email verification pathways are completely out of scope for this iteration.
 - **Remember This Device**: Trusting a browser session to bypass MFA challenges on subsequent logins will be handled in a future update.
 - **Enforced Compliance**: Absolute organization-wide mandatory enrollment policies; enrollment remains purely optional for users during this phase.
+
+## Acceptance Criteria (AC)
+- [ ] **AC 1 (Successful Verification)**: Entering a valid, current 6-digit TOTP token within its active 30-second window must transition the session status to fully authenticated and issue a valid JWT access token.
+- [ ] **AC 2 (Time Window Grace Period)**: The verification engine must accept valid tokens from the immediately preceding 30-second window (clock drift tolerance of minus one interval) but explicitly reject tokens from the future.
+- [ ] **AC 3 (Replay Protection)**: A single, distinct 6-digit token can only be submitted successfully exactly once; secondary authentication attempts using the identical token within the same time step must result in a `401 Unauthorized` response.
+- [ ] **AC 4 (Invalid Token Handling)**: Submitting an incorrectly formatted token, expired token, or empty input string must return an explicit `400 Bad Request` validation error without terminating the active user login challenge state.
+- [ ] **AC 5 (Recovery Codes)**: Submitting a valid, unused static 8-digit recovery code must grant full login access and permanently flag that specific recovery code as spent in the database.

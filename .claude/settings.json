@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "write_file|edit_file|patch_file|execute_bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/spec_gate.py"
+          }
+        ]
+      }
+    ]
+  }
+}
